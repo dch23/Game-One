@@ -8,6 +8,20 @@ public class move : MonoBehaviour
 
     float speed = 30f;
 
+    float jumpspd = 20f;
+
+    bool canJump = false;
+
+    void OnCollisionEnter (Collision c) {
+        if (c.gameObject.tag == "ground") {
+            canJump = true;
+        }
+    }
+    void OnCollisionExit (Collision c) {
+        if (c.gameObject.tag == "ground") {
+            canJump = false;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +43,9 @@ public class move : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.A)) {
             rb.AddForce(-transform.parent.transform.right * speed);
+        }
+        if (Input.GetKey(KeyCode.Space) && canJump == true) {
+            rb.AddForce(transform.parent.transform.up * jumpspd,ForceMode.Impulse);
         }
     }
 }
